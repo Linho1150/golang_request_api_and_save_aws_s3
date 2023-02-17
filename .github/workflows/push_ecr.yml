@@ -31,6 +31,7 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
           ACCESSKEYID: ${{ secrets.ACCESSKEYID }}
           ACCESSKEYSECRET: ${{ secrets.ACCESSKEYSECRET }}
+          API_KEY: ${{ secrets.API_KEY }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --build-arg ACCESSKEYID=$ACCESSKEYID --build-arg ACCESSKEYSECRET=$ACCESSKEYSECRET .
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --build-arg ACCESSKEYID_ARG=$ACCESSKEYID --build-arg ACCESSKEYSECRET_ARG=$ACCESSKEYSECRET --build-arg API_KEY_ARG=$API_KEY .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
