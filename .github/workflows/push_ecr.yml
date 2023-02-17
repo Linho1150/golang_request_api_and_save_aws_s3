@@ -1,0 +1,36 @@
+name: push_aws_ecr
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    name: build-image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.ACCESSKEYID }}
+          aws-secret-access-key: ${{ secrets.ACCESSKEYSECRET }}
+          aws-region: ap-northeast-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: italian-bmt-ecr
+          IMAGE_TAG: ${{ github.sha }}
+          ACCESSKEYID: ${{ secrets.ACCESSKEYID }}
+          ACCESSKEYSECRET: ${{ secrets.ACCESSKEYSECRET }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --build-arg ACCESSKEYID=$ACCESSKEYID --build-arg ACCESSKEYSECRET=$ACCESSKEYSECRET .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
