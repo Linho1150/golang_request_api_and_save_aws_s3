@@ -25,5 +25,5 @@ ADD . .
 RUN go build
 
 FROM public.ecr.aws/lambda/provided:al2
-COPY --from=build /linho1150 /linho1150
+COPY --from=build ./linho1150 ./linho1150
 ENTRYPOINT ["./linho1150"]
