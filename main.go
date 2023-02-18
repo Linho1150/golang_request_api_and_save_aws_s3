@@ -14,7 +14,7 @@ type MyEvent struct {
 	Name string `json:"name"`
 }
 
-func HandleRequest(ctx context.Context, name MyEvent) (string, error) {
+func HandleRequest(ctx context.Context, name MyEvent) {
 	API_KEYS := strings.Split(os.Getenv("API_KEY"), "/")
 	for _, api_key := range API_KEYS {
 		filename, content := scrapper.RequestApi(api_key)
