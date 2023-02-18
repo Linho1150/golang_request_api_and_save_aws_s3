@@ -23,6 +23,6 @@ RUN go mod download
 
 ADD . .
 RUN go build
-# copy artifacts to a clean image
+
 FROM public.ecr.aws/lambda/provided:al2
 ENTRYPOINT ["./linho1150"]
