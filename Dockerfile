@@ -22,8 +22,8 @@ ADD go.mod go.sum ./
 RUN go mod download
 
 ADD . .
-RUN go build
+RUN go build -o /linho1150
 
 FROM public.ecr.aws/lambda/provided:al2
-COPY --from=build ./linho1150 ./linho1150
-ENTRYPOINT ["./linho1150"]
+COPY --from=build /linho1150 /linho1150
+ENTRYPOINT ["/linho1150"]
