@@ -14,21 +14,11 @@ ENV GO111MODULE=on \
     GOOS=linux \
     GOARCH=amd64
 
-WORKDIR /build
-COPY . .
+WORKDIR /app
+COPY go.* ./
 RUN go mod download
-RUN go build -o main .
-RUN go build -o repository ./repository
-RUN go build -o scrapper ./scrapper
 
-WORKDIR /dist
-RUN cp /build/main .
-RUN cp /build/repository .
-RUN cp /build/scrapper .
+COPY ./ ./
+RUN go build
 
-FROM scratch
-COPY --from=builder /dist/main .
-COPY --from=builder /dist/repository .
-COPY --from=builder /dist/scrapper .
-
-ENTRYPOINT ["/main"]
+CMD ["./githb.com/linho1150"]
