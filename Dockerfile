@@ -1,4 +1,5 @@
 FROM golang:1.20-alpine3.17
+LABEL email="linho301150@gmail.com"
 
 ARG ACCESSKEYID_ARG
 ARG ACCESSKEYSECRET_ARG
