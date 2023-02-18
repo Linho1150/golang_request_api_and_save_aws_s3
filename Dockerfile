@@ -22,4 +22,6 @@ RUN go mod download
 COPY ./ ./
 RUN go build
 
-CMD ["./linho1150"]
+FROM public.ecr.aws/lambda/provided:al2
+COPY --from=build /linho1150 /linho1150
+ENTRYPOINT ["./linho1150"]
