@@ -19,6 +19,9 @@ func HandleRequest(ctx context.Context, name MyEvent) {
 	API_KEYS := strings.Split(os.Getenv("API_KEY"), "/")
 	for _, api_key := range API_KEYS {
 		filename, content := scrapper.RequestApi(api_key)
+		fmt.Println(filename)
+		fmt.Println(content)
+
 		if filename != "ALL" {
 			repository.SaveJsonToS3(filename, content)
 			break
