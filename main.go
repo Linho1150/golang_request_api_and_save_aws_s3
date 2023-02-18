@@ -18,9 +18,9 @@ type MyEvent struct {
 func HandleRequest(ctx context.Context, name MyEvent) {
 	API_KEYS := strings.Split(os.Getenv("API_KEY"), "/")
 	for _, api_key := range API_KEYS {
-		filename, content := scrapper.RequestApi(api_key)
+		content := scrapper.RequestApi(api_key)
 		if !strings.Contains(string(content), "INFO-000") {
-			repository.SaveJsonToS3(filename, content)
+			repository.SaveJsonToS3(content)
 			break
 		}
 	}

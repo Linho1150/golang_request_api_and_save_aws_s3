@@ -6,7 +6,6 @@ import (
 	"os"
 	"path"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -15,17 +14,12 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3"
 )
 
-func SaveJsonToS3(item string, content []byte) {
+func SaveJsonToS3(content []byte) {
 	fmt.Println("Start process ...")
 	fmt.Println("Download JSON in AWS S3")
-	strMillisecond := strings.Split(item, ".")[0]
-	intMillisecond, err := strconv.ParseInt(strMillisecond, 10, 64)
-	if err != nil {
-		panic(err)
-	}
 	seoul, _ := time.LoadLocation("Asia/Seoul")
-	timeData := time.UnixMilli(intMillisecond).In(seoul)
-	item = timeData.String() + ".json"
+	timeData := time.Now().In(seoul)
+	item := timeData.String() + ".json"
 	bucket := "italian-bmt-bucket"
 	accessKeyID := os.Getenv("ACCESSKEYID")
 	accessKeySecret := os.Getenv("ACCESSKEYSECRET")
@@ -35,7 +29,7 @@ func SaveJsonToS3(item string, content []byte) {
 		Credentials: credentials.NewStaticCredentials(accessKeyID, accessKeySecret, ""),
 	}))
 	svc := s3.New(sess)
-	_, err = svc.PutObject(&s3.PutObjectInput{
+	_, err := svc.PutObject(&s3.PutObjectInput{
 		Bucket: aws.String(bucket),
 		Key:    aws.String(path.Join(strconv.Itoa(timeData.Year()), strconv.Itoa(int(timeData.Month())), strconv.Itoa(timeData.Day()), item)),
 		Body:   bytes.NewReader(content),
