@@ -16,6 +16,8 @@ import (
 )
 
 func SaveJsonToS3(item string, content []byte) {
+	fmt.Println("Start process ...")
+	fmt.Println("Download JSON in AWS S3")
 	strMillisecond := strings.Split(item, ".")[0]
 	intMillisecond, err := strconv.ParseInt(strMillisecond, 10, 64)
 	if err != nil {
@@ -45,4 +47,5 @@ func SaveJsonToS3(item string, content []byte) {
 	}
 
 	fmt.Println("File uploaded successfully")
+	fmt.Println("END process ...")
 }
