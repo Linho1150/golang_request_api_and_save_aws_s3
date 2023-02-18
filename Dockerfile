@@ -21,4 +21,4 @@ RUN go mod download
 COPY ./ ./
 RUN go build
 
-CMD ["./githb.com/linho1150"]
+CMD ["./linho1150"]
