@@ -1,14 +1,20 @@
 package main
 
 import (
+	"context"
 	"os"
 	"strings"
 
 	"githb.com/linho1150/repository"
 	"githb.com/linho1150/scrapper"
+	"github.com/aws/aws-lambda-go/lambda"
 )
 
-func main() {
+type MyEvent struct {
+	Name string `json:"name"`
+}
+
+func HandleRequest(ctx context.Context, name MyEvent) (string, error) {
 	API_KEYS := strings.Split(os.Getenv("API_KEY"), "/")
 	for _, api_key := range API_KEYS {
 		filename, content := scrapper.RequestApi(api_key)
@@ -17,4 +23,8 @@ func main() {
 			break
 		}
 	}
+}
+
+func main() {
+	lambda.Start(HandleRequest)
 }
