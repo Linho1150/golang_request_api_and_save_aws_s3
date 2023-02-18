@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"strings"
 
@@ -27,4 +28,5 @@ func HandleRequest(ctx context.Context, name MyEvent) {
 
 func main() {
 	lambda.Start(HandleRequest)
+	fmt.Println("END")
 }

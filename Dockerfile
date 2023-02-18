@@ -1,4 +1,4 @@
-FROM golang:1.20-alpine3.17
+FROM public.ecr.aws/lambda/provided:al2 as build
 LABEL email="linho301150@gmail.com"
 
 ARG ACCESSKEYID_ARG
@@ -15,13 +15,15 @@ ENV GO111MODULE=on \
     GOOS=linux \
     GOARCH=amd64
 
-WORKDIR /app
-COPY go.* ./
+RUN yum install -y golang
+RUN go env -w GOPROXY=direct
+
+ADD go.mod go.sum ./
 RUN go mod download
 
-COPY ./ ./
-RUN go build
-
+ADD . .
+RUN go build -o /linho1150
+# copy artifacts to a clean image
 FROM public.ecr.aws/lambda/provided:al2
 COPY --from=build /linho1150 /linho1150
 ENTRYPOINT ["./linho1150"]
