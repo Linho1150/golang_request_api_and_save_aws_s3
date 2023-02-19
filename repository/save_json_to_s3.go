@@ -36,8 +36,7 @@ func SaveJsonToS3(content []byte) {
 	})
 
 	if err != nil {
-		fmt.Println(err)
-		return
+		panic(err)
 	}
 
 	fmt.Println("File uploaded successfully")

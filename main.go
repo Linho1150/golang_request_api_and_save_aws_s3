@@ -1,8 +1,6 @@
 package main
 
 import (
-	"context"
-	"fmt"
 	"os"
 	"strings"
 
@@ -15,18 +13,18 @@ type MyEvent struct {
 	Name string `json:"name"`
 }
 
-func HandleRequest(ctx context.Context, name MyEvent) {
+func HandleRequest(evnet MyEvent) string {
 	API_KEYS := strings.Split(os.Getenv("API_KEY"), "/")
 	for _, api_key := range API_KEYS {
 		content := scrapper.RequestApi(api_key)
 		if !strings.Contains(string(content), "INFO-000") {
 			repository.SaveJsonToS3(content)
-			break
+			return "Successful"
 		}
 	}
+	return "No data found"
 }
 
 func main() {
 	lambda.Start(HandleRequest)
-	fmt.Println("END")
 }
