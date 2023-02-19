@@ -13,16 +13,16 @@ type MyEvent struct {
 	Name string `json:"name"`
 }
 
-func HandleRequest(evnet MyEvent) string {
+func HandleRequest(evnet MyEvent) (string, error) {
 	API_KEYS := strings.Split(os.Getenv("API_KEY"), "/")
 	for _, api_key := range API_KEYS {
 		content := scrapper.RequestApi(api_key)
 		if !strings.Contains(string(content), "INFO-000") {
 			repository.SaveJsonToS3(content)
-			return "Successful"
+			return "Successful", nil
 		}
 	}
-	return "No data found"
+	panic("No data")
 }
 
 func main() {
