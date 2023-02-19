@@ -23,6 +23,7 @@ func SaveJsonToS3(content []byte) {
 	bucket := "italian-bmt-bucket"
 	accessKeyID := os.Getenv("ACCESSKEYID")
 	accessKeySecret := os.Getenv("ACCESSKEYSECRET")
+	fmt.Println(accessKeyID)
 
 	sess := session.Must(session.NewSession(&aws.Config{
 		Region:      aws.String("ap-northeast-2"),
