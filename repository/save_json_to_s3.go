@@ -18,8 +18,8 @@ func SaveJsonToS3(content []byte) {
 	fmt.Println("Start process ...")
 	fmt.Println("Download JSON in AWS S3")
 	seoul, _ := time.LoadLocation("Asia/Seoul")
-	timeData := time.Now().In(seoul)
-	item := timeData.String() + ".json"
+	timeData := time.Now().In(seoul).Format(time.RFC3339)
+	item := timeData + ".json"
 	bucket := "italian-bmt-bucket"
 	accessKeyID := os.Getenv("ACCESSKEYID")
 	accessKeySecret := os.Getenv("ACCESSKEYSECRET")
