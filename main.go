@@ -17,7 +17,7 @@ func HandleRequest(evnet MyEvent) (string, error) {
 	API_KEYS := strings.Split(os.Getenv("API_KEY"), "/")
 	for _, api_key := range API_KEYS {
 		content := scrapper.RequestApi(api_key)
-		if !strings.Contains(string(content), "INFO-000") {
+		if strings.Contains(string(content), "INFO-000") {
 			repository.SaveJsonToS3(content)
 			return "Successful", nil
 		}
